@@ -13,9 +13,11 @@ set(cdata_SOURCES
     src/map.h
     src/map.c
     src/types.h
+    src/types.c
 )
 
 add_library(cdata STATIC ${cdata_SOURCES})
+target_link_libraries(cdata m)
 
 include_directories(src)
 
