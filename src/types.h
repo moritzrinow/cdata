@@ -1,6 +1,10 @@
 #ifndef _TYPES_H
 #define _TYPES_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdbool.h>
@@ -12,5 +16,9 @@ typedef struct alloc_s {
 } alloc_t;
 
 alloc_t alloc_std();
+
+#ifdef __cplusplus
+}
+#endif // __cplusplus
 
 #endif // _TYPES_H

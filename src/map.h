@@ -49,6 +49,21 @@ bool map_contains_key(map_t *map,
 void map_remove(map_t *map,
                 void *key);
 
+uint32_t map_key_hash_int8(void *);
+uint32_t map_key_hash_int16(void *);
+uint32_t map_key_hash_int32(void *);
+uint32_t map_key_hash_int64(void *);
+
+uint32_t map_key_hash_uint8(void *);
+uint32_t map_key_hash_uint16(void *);
+uint32_t map_key_hash_uint32(void *);
+uint32_t map_key_hash_uint64(void *);
+
+uint32_t map_key_hash_float32(void *);
+uint32_t map_key_hash_float64(void *);
+
+uint32_t map_key_hash_str(void *);
+
 #ifdef __cplusplus
 }
 #endif // __cplusplus
