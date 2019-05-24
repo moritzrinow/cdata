@@ -104,10 +104,80 @@ bool array_push_value(array_t *array,
   return true;
 }
 
+void *array_insert(array_t *array,
+                   uint32_t index)
+{
+  uint32_t space_left = array_space_left(array);
+  if(space_left < 1){
+    if(!array_resize_internal(array, array->num_alloc + 1, true)){
+      return NULL;
+    }
+  }
+  size_t elem_size = array->elem_size;
+  uint8_t *data = (uint8_t *)array->data;
+  uint8_t *src = &data[elem_size * index];
+  uint8_t *dest = &data[elem_size * (index + 1)];
+  memmove(dest, src, elem_size * (array->num_elem - 1 - index));
+  array->num_elem++;
+  return dest;
+}
+
+bool array_insert_value(array_t *array,
+                        uint32_t index,
+                        void *elem)
+{
+  void *inserted = array_insert(array, index);
+  if(!inserted){
+    return false;
+  }
+  memcpy(inserted, elem, array->elem_size);
+  return true;
+}
+
+void array_remove(array_t *array,
+                  uint32_t index)
+{
+  size_t elem_size = array->elem_size;
+  uint8_t *data = (uint8_t *)array->data;
+  uint8_t *src = &data[elem_size * (index + 1)];
+  uint8_t *dest = &data[elem_size * index];
+  memmove(dest, src, elem_size * (array->num_elem - (index + 1)));
+  array->num_elem--;
+}
+
 bool array_resize(array_t *array,
                   uint32_t size)
 {
   return array_resize_internal(array, size, false);
+}
+
+void *array_insert_safe(array_t *array,
+                        uint32_t index)
+{
+  if(!array_valid_index(array, index)){
+    return NULL;
+  }
+  return array_insert(array, index);
+}
+
+bool array_insert_value_safe(array_t *array,
+                             uint32_t index,
+                             void *elem)
+{
+  if(!array_valid_index(array, index)){
+    return false;
+  }
+  return array_insert_value(array, index, elem);
+}
+
+bool array_remove_safe(array_t *array,
+                       uint32_t index)
+{
+  if(!array_valid_index(array, index)){
+    return false;
+  }
+  array_remove(array, index);
+  return true;
 }
 
 void *array_get(array_t *array,
@@ -125,4 +195,104 @@ void *array_get_safe(array_t *array,
   }
   uint8_t *data = (uint8_t *)array->data;
   return &data[array->elem_size * index];
+}
+
+bool array_contains(array_t *array,
+                    array_compare_func_t compare,
+                    void *elem)
+{
+  uint32_t i;
+  uint32_t num_elem = array->num_elem;
+
+  for(i = 0; i < num_elem; i++){
+    void *current = array_get(array, i);
+    if(compare(current, elem)){
+      return true;
+    }
+  }
+  return false;
+}
+
+void *array_find_first(array_t *array,
+                       array_compare_func_t compare,
+                       void *elem)
+{
+  uint32_t i;
+  uint32_t num_elem = array->num_elem;
+
+  for(i = 0; i < num_elem; i++){
+    void *current = array_get(array, i);
+    if(compare(current, elem)){
+      return current;
+    }
+  }
+  return NULL;
+}
+
+void *array_find_last(array_t *array,
+                      array_compare_func_t compare,
+                      void *elem)
+{
+  uint32_t i;
+  uint32_t num_elem = array->num_elem;
+
+  for(i = num_elem - 1; i >= 0; i--){
+    void *current = array_get(array, i);
+    if(compare(current, elem)){
+      return current;
+    }
+  }
+  return NULL;
+}
+
+bool compare_std(void *elem1,
+                 void *elem2,
+                 size_t elem_size)
+{
+  return memcmp(elem1, elem2, elem_size) == 0;
+}
+
+bool array_contains_std(array_t *array,
+                        void *elem)
+{
+  uint32_t i;
+  uint32_t num_elem = array->num_elem;
+
+  for(i = 0; i < num_elem; i++){
+    void *current = array_get(array, i);
+    if(compare_std(current, elem, array->elem_size)){
+      return true;
+    }
+  }
+  return false;
+}
+
+void *array_find_first_std(array_t *array,
+                           void *elem)
+{
+  uint32_t i;
+  uint32_t num_elem = array->num_elem;
+
+  for(i = 0; i < num_elem; i++){
+    void *current = array_get(array, i);
+    if(compare_std(current, elem, array->elem_size)){
+      return current;
+    }
+  }
+  return NULL;
+}
+
+void *array_find_last_std(array_t *array,
+                          void *elem)
+{
+  uint32_t i;
+  uint32_t num_elem = array->num_elem;
+
+  for(i = num_elem - 1; i >= 0; i--){
+    void *current = array_get(array, i);
+    if(compare_std(current, elem, array->elem_size)){
+      return current;
+    }
+  }
+  return NULL;
 }
