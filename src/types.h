@@ -6,9 +6,9 @@
 #include <stdbool.h>
 
 typedef struct alloc_s {
-  void *(*malloc)(size_t);
-  void (*free)(void *);
-  void *(*realloc)(void *, size_t);
+  void *             (*malloc)(size_t);
+  void               (*free)(void *);
+  void *             (*realloc)(void *, size_t);
 } alloc_t;
 
 alloc_t alloc_std();

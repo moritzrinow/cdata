@@ -26,6 +26,9 @@ void array_destroy(array_t *array);
 void *array_push(array_t *array);
 bool array_push_value(array_t *array,
                       void *elem);
+bool array_push_many(array_t *array,
+                     uint32_t num,
+                     void *elem);
 void *array_insert(array_t *array,
                    uint32_t index);
 bool array_insert_value(array_t *array,
@@ -72,6 +75,12 @@ void *array_find_last_std(array_t *array,
 do { \
   type val = elem; \
   array_push_value(array, &val); \
+} while(0);
+
+#define ARRAY_PUSH_MANY(array, type, num, elem) \
+do { \
+  type val = elem; \
+  array_push_many(array, num, &val); \
 } while(0);
 
 #define ARRAY_GET(array, type, index) ((type*)array_get(array, index))

@@ -93,6 +93,27 @@ void *array_push(array_t *array)
   return &data[array->elem_size * array->num_elem++];
 }
 
+bool array_push_many(array_t *array,
+                     uint32_t num,
+                     void *elem)
+{
+  if(num < 1){
+    return false;
+  }
+  uint32_t space_left = array_space_left(array);
+  if(space_left < num){
+    if(!array_resize_internal(array, array->num_alloc + num, true)){
+      return NULL;
+    }
+  }
+  uint8_t *data = (uint8_t *)array->data;
+  for(uint32_t i = array->num_elem - 1; i < num; i++){
+    uint8_t *current = &data[i * array->elem_size];
+    memcpy(current, elem, array->elem_size);
+  }
+  return true;
+}
+
 bool array_push_value(array_t *array,
                       void *elem)
 {
