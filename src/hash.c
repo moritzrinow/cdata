@@ -13,7 +13,7 @@ uint32_t hash_data(uint8_t *data,
   return key;
 }
 
-uint32_t hash_str(uint8 *str)
+uint32_t hash_str(uint8_t *str)
 {
   int32_t c;
   uint32_t hash = 5381;
