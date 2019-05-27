@@ -6,7 +6,7 @@ int main(int argc, char **argv)
   bool result;
   array_t array;
 
-  result = array_init(&array, sizeof(int32_t), 0);
+  result = array_init(&array, sizeof(int32_t), 0, true);
   if(!result){
     printf("Could not create array.\n");
     return 1;

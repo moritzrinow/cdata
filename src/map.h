@@ -11,6 +11,8 @@ extern "C" {
 typedef struct map_func_s {
   bool                  (*key_compare)(void *, void *);
   uint32_t              (*key_hash)(void *);
+  void                  (*key_destroy)(void *);
+  void                  (*val_destroy)(void *);
 } map_func_t;
 
 typedef struct map_entry_s {
@@ -20,28 +22,26 @@ typedef struct map_entry_s {
 } map_entry_t;
 
 typedef struct map_s {
+  alloc_t            alloc;
   array_t            entries;
   map_func_t         func;
-  size_t             key_size;
-  size_t             val_size;
 } map_t;
 
-bool map_entry_init(map_entry_t *entry,
-                    map_t *map);
-void map_entry_destroy(map_entry_t *entry);
-void map_entry_destroy_recursive(map_entry_t *head);
-
+void map_entry_init(map_entry_t *entry);
+void map_entry_destroy(map_t *map,
+                       map_entry_t *entry);
+void map_entry_destroy_recursive(map_t *map,
+                                 map_entry_t *head);
 bool map_init(map_t *map,
               uint32_t size,
               map_func_t func,
-              size_t key_size,
-              size_t val_size);
+              bool std_alloc);
 void map_destroy(map_t *map);
 void *map_add_key(map_t *map,
                   void *key);
 bool map_add_key_value(map_t *map,
-                        void *key,
-                        void *value);
+                       void *key,
+                       void *value);
 void *map_lookup(map_t *map,
                  void *key);
 bool map_contains_key(map_t *map,

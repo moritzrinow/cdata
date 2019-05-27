@@ -14,46 +14,49 @@ static map_entry_t *map_lookup_entry(map_t *map,
   return NULL;
 }
 
-bool map_entry_init(map_entry_t *entry,
-                    map_t *map)
+void map_entry_init(map_entry_t *entry)
 {
   entry->next = NULL;
-  key = malloc(map->key_size);
-  value = malloc(map->val_size);
-  if(!key || !value){
-    return false;
-  }
+  entry->key = NULL;
+  entry->value = NULL;
   return true;
 }
 
-void map_entry_destroy(map_entry_t *entry)
+void map_entry_destroy(map_t *map,
+                       map_entry_t *entry)
 {
-  free(entry->key);
-  free(entry->value);
+  if(map->func.key_destroy != NULL){
+    map->func.key_destroy(entry->key);
+  }
+  if(map->func.val_destroy != NULL){
+    map->func.val_destroy(entry->val);
+  }
 }
 
-void map_entry_destroy_recursive(map_entry_t *head)
+void map_entry_destroy_recursive(map_t *map,
+                                 map_entry_t *head)
 {
-  map_entry_destroy(head);
+  map_entry_destroy(map, head);
   map_entry_t *walker = head->next;
   while(walker){
     map_entry_t *current = walker;
     walker = current->next;
-    map_entry_destroy(current);
-    free(current);
+    map_entry_destroy(map, current);
+    map->alloc.free(current);
   }
 }
 
 bool map_init(map_t *map,
               uint32_t size,
               map_func_t func,
-              size_t key_size,
-              size_t val_size)
+              bool std_alloc)
 {
+  if(std_alloc){
+    map->alloc = alloc_std;
+  }
   map->func = func;
-  map->key_size = key_size;
-  map->val_size = val_size;
-  if(!array_init(&map->entries, sizeof(map_entry_t *), size){
+  map->entries.alloc = map->alloc;
+  if(!array_init(&map->entries, sizeof(map_entry_t *), size, false){
     return false;
   }
   ARRAY_PUSH_MANY(&map->enties, map_entry_t *, size, NULL);
@@ -66,15 +69,15 @@ void map_destroy(map_t *map)
   for(uint32_t i = 0; i < map->entries.num_elem; i++){
     map_entry_t *entry = ARRAY_GET_VAL(&map->entries, map_entry_t *, i);
     if(entry != NULL){
-      map_entry_destroy_recursive(entry);
-      free(entry);
+      map_entry_destroy_recursive(map, entry);
+      map->alloc.free(entry);
     }
   }
   array_destroy(&map->entries);
 }
 
-void *map_add_key(map_t *map,
-                  void *key)
+static map_entry_t *map_add_entry(map_t *map,
+                                  void *key)
 {
   if(map->entries.num_elem < 1) {
     return NULL;
@@ -85,19 +88,26 @@ void *map_add_key(map_t *map,
   if((entry = map_lookup_entry(map, key)) != NULL){
     return NULL;
   }
-  entry = (map_entry_t *)malloc(sizeof(map_entry_t));
+  entry = (map_entry_t *)map->alloc.malloc(sizeof(map_entry_t));
   if(!entry){
     return NULL;
   }
-  if(!map_entry_init(entry, map)){
-    free(entry);
-    return NULL;
-  }
+  map_entry_init(entry);
   hash = map->func.hash_key(key);
   uint32_t index = hash % map->entries.num_elem;
   map_entry_t **head = ARRAY_GET(&map->entries, map_entry_t *, index);
   entry->next = *head;
   *head = entry;
+  return entry;
+}
+
+void *map_add_key(map_t *map,
+                  void *key)
+{
+  map_entry_t *entry = map_add_entry(map, key);
+  if(!entry){
+    return NULL;
+  }
   return entry->value;
 }
 
@@ -105,12 +115,12 @@ void *map_add_key_value(map_t *map,
                         void *key,
                         void *value)
 {
-  void *entry_val = map_add_key(map, key);
-  if(!entry_val){
-    return false;
+  map_entry_t *entry = map_add_entry(map, key);
+  if(!entry){
+    return NULL;
   }
-  memcpy(entry_val, value, map->val_size);
-  return true;
+  entry->value = value;
+  return entry->value;
 }
 
 void *map_lookup(map_t *map,
@@ -149,8 +159,8 @@ void map_remove(map_t *map,
   }
   map_entry_t *to_remove = *walker;
   *walker = to_remove->next;
-  map_entry_destroy(to_remove);
-  free(to_remove);
+  map_entry_destroy(mpa, to_remove);
+  map->alloc.free(to_remove);
 }
 
 uint32_t map_key_hash_int8(void *key)

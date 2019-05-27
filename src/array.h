@@ -21,7 +21,8 @@ typedef struct array_s {
 
 bool array_init(array_t *array,
                 size_t elem_size,
-                uint32_t num_alloc);
+                uint32_t num_alloc,
+                bool std_alloc);
 void array_destroy(array_t *array);
 void *array_push(array_t *array);
 bool array_push_value(array_t *array,
@@ -38,6 +39,7 @@ void array_remove(array_t *array,
                   uint32_t index);
 bool array_resize(array_t *array,
                   uint32_t size);
+bool array_shrink(array_t *array);
 void *array_insert_safe(array_t *array,
                         uint32_t index);
 bool array_insert_value_safe(array_t *array,

@@ -53,9 +53,12 @@ static bool array_resize_internal(array_t *array,
 
 bool array_init(array_t *array,
                 size_t elem_size,
-                uint32_t num_alloc)
+                uint32_t num_alloc,
+                bool std_alloc)
 {
-  array->alloc = alloc_std();
+  if(std_alloc){
+    array->alloc = alloc_std;
+  }
   array->data = NULL;
   array->elem_size = elem_size;
   array->num_alloc = 0;
@@ -170,6 +173,14 @@ bool array_resize(array_t *array,
                   uint32_t size)
 {
   return array_resize_internal(array, size, false);
+}
+
+bool array_shrink(array_t *array)
+{
+  if(array->num_elem < array->num_alloc){
+    return array_resize_internal(array, array->num_elem, false);
+  }
+  return true;
 }
 
 void *array_insert_safe(array_t *array,

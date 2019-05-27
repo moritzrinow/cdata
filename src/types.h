@@ -15,7 +15,7 @@ typedef struct alloc_s {
   void *             (*realloc)(void *, size_t);
 } alloc_t;
 
-alloc_t alloc_std();
+extern alloc_t alloc_std;
 
 #ifdef __cplusplus
 }
