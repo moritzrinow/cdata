@@ -328,3 +328,48 @@ void *array_find_last_std(array_t *array,
   }
   return NULL;
 }
+
+uint32_t array_count(array_t *array,
+                     array_compare_func_t compare,
+                     void *elem)
+{
+  uint32_t i;
+  uint32_t num_elem = array->num_elem;
+  uint32_t count = 0;
+
+  for(i = 0;i < num_elem; i++){
+    void *current = array_get(array, i);
+    if(compare(current, elem)){
+      count++;
+    }
+  }
+  return count;
+}
+
+uint32_t array_count_std(array_t *array,
+                         void* elem)
+{
+  uint32_t i;
+  uint32_t num_elem = array->num_elem;
+  uint32_t count = 0;
+
+  for(i = 0;i < num_elem; i++){
+    void *current = array_get(array, i);
+    if(compare_std(current, elem, array->elem_size)){
+      count++;
+    }
+  }
+  return count;
+}
+
+void array_foreach(array_t *array,
+                   array_foreach_func_t action)
+{
+  uint32_t i;
+  uint32_t num_elem = array->num_elem;
+
+  for(i = 0; i < num_elem; i++){
+    void *current = array_get(array, i);
+    action(current);
+  }
+}
