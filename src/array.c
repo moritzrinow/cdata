@@ -6,7 +6,7 @@
 #define array_space_left(array) (array->num_alloc - array->num_elem)
 
 static inline bool array_valid_index(array_t *array,
-                              uint32_t index)
+                                     uint32_t index)
 {
   return index >= 0 && index < array->num_elem;
 }
@@ -230,7 +230,7 @@ void *array_get_safe(array_t *array,
 }
 
 bool array_contains(array_t *array,
-                    array_compare_func_t compare,
+                    array_equal_func_t equal,
                     void *elem)
 {
   uint32_t i;
@@ -238,7 +238,7 @@ bool array_contains(array_t *array,
 
   for(i = 0; i < num_elem; i++){
     void *current = array_get(array, i);
-    if(compare(current, elem)){
+    if(equal(current, elem)){
       return true;
     }
   }
@@ -246,7 +246,7 @@ bool array_contains(array_t *array,
 }
 
 void *array_find_first(array_t *array,
-                       array_compare_func_t compare,
+                       array_equal_func_t equal,
                        void *elem)
 {
   uint32_t i;
@@ -254,7 +254,7 @@ void *array_find_first(array_t *array,
 
   for(i = 0; i < num_elem; i++){
     void *current = array_get(array, i);
-    if(compare(current, elem)){
+    if(equal(current, elem)){
       return current;
     }
   }
@@ -262,7 +262,7 @@ void *array_find_first(array_t *array,
 }
 
 void *array_find_last(array_t *array,
-                      array_compare_func_t compare,
+                      array_equal_func_t equal,
                       void *elem)
 {
   uint32_t i;
@@ -270,14 +270,14 @@ void *array_find_last(array_t *array,
 
   for(i = num_elem - 1; i >= 0; i--){
     void *current = array_get(array, i);
-    if(compare(current, elem)){
+    if(equal(current, elem)){
       return current;
     }
   }
   return NULL;
 }
 
-bool compare_std(void *elem1,
+bool equal_std(void *elem1,
                  void *elem2,
                  size_t elem_size)
 {
@@ -292,7 +292,7 @@ bool array_contains_std(array_t *array,
 
   for(i = 0; i < num_elem; i++){
     void *current = array_get(array, i);
-    if(compare_std(current, elem, array->elem_size)){
+    if(equal_std(current, elem, array->elem_size)){
       return true;
     }
   }
@@ -307,7 +307,7 @@ void *array_find_first_std(array_t *array,
 
   for(i = 0; i < num_elem; i++){
     void *current = array_get(array, i);
-    if(compare_std(current, elem, array->elem_size)){
+    if(equal_std(current, elem, array->elem_size)){
       return current;
     }
   }
@@ -322,7 +322,7 @@ void *array_find_last_std(array_t *array,
 
   for(i = num_elem - 1; i >= 0; i--){
     void *current = array_get(array, i);
-    if(compare_std(current, elem, array->elem_size)){
+    if(equal_std(current, elem, array->elem_size)){
       return current;
     }
   }
@@ -330,7 +330,7 @@ void *array_find_last_std(array_t *array,
 }
 
 uint32_t array_count(array_t *array,
-                     array_compare_func_t compare,
+                     array_equal_func_t equal,
                      void *elem)
 {
   uint32_t i;
@@ -339,7 +339,7 @@ uint32_t array_count(array_t *array,
 
   for(i = 0;i < num_elem; i++){
     void *current = array_get(array, i);
-    if(compare(current, elem)){
+    if(equal(current, elem)){
       count++;
     }
   }
@@ -355,7 +355,7 @@ uint32_t array_count_std(array_t *array,
 
   for(i = 0;i < num_elem; i++){
     void *current = array_get(array, i);
-    if(compare_std(current, elem, array->elem_size)){
+    if(equal_std(current, elem, array->elem_size)){
       count++;
     }
   }
@@ -372,4 +372,39 @@ void array_foreach(array_t *array,
     void *current = array_get(array, i);
     action(current);
   }
+}
+
+int32_t compare_std(void *elem1,
+                    void *elem2,
+                    size_t elem_size)
+{
+  return memcpm(elem1, elem2, elem_size);
+}
+
+void array_swap(array_t *array,
+                uint32_t index1,
+                uint32_t index2)
+{
+  void *elem1 = array_get(array, index1);
+  void *elem2 = array_get(array, index2);
+  void *buffer = alloca(array->elem_size);
+  memcpy(buffer, elem1, array->elem_size);
+  memcpy(elem1, elem2, array->elem_size);
+  memcpy(elem2, buffer, array->elem_size);
+}
+
+bool array_swap_safe(array_t *array,
+                     uint32_t index1,
+                     uint32_t index2)
+{
+  if(!array_valid_index(array, index1) || !array_valid_index(array, index2)){
+    return false;
+  }
+  void *elem1 = array_get(array, index1);
+  void *elem2 = array_get(array, index2);
+  char *buffer = (char *)alloca(array->elem_size);
+  memcpy(buffer, elem1, array->elem_size);
+  memcpy(elem1, elem2, array->elem_size);
+  memcpy(elem2, buffer, array->elem_size);
+  return true;
 }

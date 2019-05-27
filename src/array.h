@@ -52,20 +52,20 @@ void *array_get(array_t *array,
 void *array_get_safe(array_t *array,
                      uint32_t index);
 
-typedef bool (*array_compare_func_t)(void *, void *);
+typedef bool (*array_equal_func_t)(void *, void *);
 bool array_contains(array_t *array,
-                    array_compare_func_t compare,
+                    array_equal_func_t equal,
                     void *elem);
 void *array_find_first(array_t *array,
-                       array_compare_func_t compare,
+                       array_equal_func_t equal,
                        void *elem);
 void *array_find_last(array_t *array,
-                      array_compare_func_t compare,
+                      array_equal_func_t equal,
                       void *elem);
 
-bool compare_std(void *elem1,
-                 void *elem2,
-                 size_t elem_size);
+bool equal_std(void *elem1,
+               void *elem2,
+               size_t elem_size);
 bool array_contains_std(array_t *array,
                         void *elem);
 void *array_find_first_std(array_t *array,
@@ -74,7 +74,7 @@ void *array_find_last_std(array_t *array,
                           void *elem);
 
 uint32_t array_count(array_t *array,
-                     array_compare_func_t compare,
+                     array_equal_func_t equal,
                      void *elem);
 uint32_t array_count_std(array_t *array,
                          void* elem);
@@ -82,6 +82,18 @@ uint32_t array_count_std(array_t *array,
 typedef void (*array_foreach_func_t)(void *);
 void array_foreach(array_t *array,
                    array_foreach_func_t action);
+
+typedef int32_t (*array_compare_func_t)(void *, void *);
+int32_t compare_std(void *elem1,
+                    void *elem2,
+                    size_t elem_size);
+
+void array_swap(array_t *array,
+                uint32_t index1,
+                uint32_t index2);
+bool array_swap_safe(array_t *array,
+                     uint32_t index1,
+                     uint32_t index2);
 
 #define ARRAY_PUSH(array, type, elem) \
 ( \
@@ -101,11 +113,11 @@ void array_foreach(array_t *array,
   } \
 )
 
-#define ARRAY_CONTAINS(array, type, compare_func, elem) \
+#define ARRAY_CONTAINS(array, type, equal_func, elem) \
 ( \
   { \
     type val = elem; \
-    bool ret = array_contains(array, compare_func, &val); \
+    bool ret = array_contains(array, equal_func, &val); \
     ret; \
   } \
 )
@@ -119,11 +131,11 @@ void array_foreach(array_t *array,
   } \
 )
 
-#define ARRAY_FIND_FIRST(array, type, compare_func, elem) \
+#define ARRAY_FIND_FIRST(array, type, equal_func, elem) \
 ( \
   { \
     type val = elem; \
-    void *found = array_find_first(array, compare_func, &val); \
+    void *found = array_find_first(array, equal_func, &val); \
     found; \
   } \
 )
@@ -137,11 +149,11 @@ void array_foreach(array_t *array,
   } \
 )
 
-#define ARRAY_FIND_LAST(array, type, compare_func, elem) \
+#define ARRAY_FIND_LAST(array, type, equal_func, elem) \
 ( \
   { \
     type val = elem; \
-    void *found = array_find_last(array, compare_func, &val); \
+    void *found = array_find_last(array, equal_func, &val); \
     found; \
   } \
 )
@@ -155,11 +167,11 @@ void array_foreach(array_t *array,
   } \
 )
 
-#define ARRAY_COUNT(array, type, compare_func, elem) \
+#define ARRAY_COUNT(array, type, equal_func, elem) \
 ( \
   { \
     type val = elem; \
-    uint32_t count = array_count(array, compare_func, &val); \
+    uint32_t count = array_count(array, equal_func, &val); \
     count; \
   } \
 )

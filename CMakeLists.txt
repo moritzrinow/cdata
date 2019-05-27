@@ -16,6 +16,8 @@ set(cdata_SOURCES
     src/types.c
     src/hash.h
     src/hash.c
+    src/sort.h
+    src/sort.c
 )
 
 add_library(cdata STATIC ${cdata_SOURCES})
