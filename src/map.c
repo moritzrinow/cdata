@@ -6,7 +6,8 @@ static map_entry_t *map_lookup_entry(map_t *map,
 {
   map_entry_t *entry;
   uint32_t hash = map->func.key_hash(key);
-  for(entry = ARRAY_GET_VAL(&map->entries, map_entry_t *, hash); entry != NULL; entry = entry->next){
+	uint32_t index = hash % map->entries.num_elem;
+  for(entry = ARRAY_GET_VAL(&map->entries, map_entry_t *, index); entry != NULL; entry = entry->next){
     if(map->func.key_compare(entry->key, key)){
       return entry;
     }
@@ -19,7 +20,6 @@ void map_entry_init(map_entry_t *entry)
   entry->next = NULL;
   entry->key = NULL;
   entry->value = NULL;
-  return true;
 }
 
 void map_entry_destroy(map_t *map,
@@ -107,6 +107,7 @@ void *map_add_key(map_t *map,
   if(!entry){
     return NULL;
   }
+	entry->key = key;
   return entry->value;
 }
 
@@ -118,6 +119,7 @@ void *map_add_key_value(map_t *map,
   if(!entry){
     return NULL;
   }
+	entry->key = key;
   entry->value = value;
   return entry->value;
 }
@@ -160,6 +162,12 @@ void map_remove(map_t *map,
   *walker = to_remove->next;
   map_entry_destroy(map, to_remove);
   map->alloc.free(to_remove);
+}
+
+void map_foreach_key(map_t *map,
+										 map_foreach_key_func_t action)
+{
+
 }
 
 uint32_t map_key_hash_int8(void *key)

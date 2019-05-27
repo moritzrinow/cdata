@@ -106,14 +106,15 @@ bool array_push_many(array_t *array,
   uint32_t space_left = array_space_left(array);
   if(space_left < num){
     if(!array_resize_internal(array, array->num_alloc + num, true)){
-      return NULL;
+      return false;
     }
   }
   uint8_t *data = (uint8_t *)array->data;
-  for(uint32_t i = array->num_elem - 1; i < num; i++){
+  for(uint32_t i = 0; i < num; i++){
     uint8_t *current = &data[i * array->elem_size];
     memcpy(current, elem, array->elem_size);
   }
+	array->num_elem += num;
   return true;
 }
 
@@ -378,7 +379,7 @@ int32_t compare_std(void *elem1,
                     void *elem2,
                     size_t elem_size)
 {
-  return memcpm(elem1, elem2, elem_size);
+  return memcmp(elem1, elem2, elem_size);
 }
 
 void array_swap(array_t *array,
@@ -387,10 +388,11 @@ void array_swap(array_t *array,
 {
   void *elem1 = array_get(array, index1);
   void *elem2 = array_get(array, index2);
-  void *buffer = alloca(array->elem_size);
+  void *buffer = array->alloc.malloc(array->elem_size);
   memcpy(buffer, elem1, array->elem_size);
   memcpy(elem1, elem2, array->elem_size);
   memcpy(elem2, buffer, array->elem_size);
+	array->alloc.free(buffer);
 }
 
 bool array_swap_safe(array_t *array,
@@ -400,11 +402,12 @@ bool array_swap_safe(array_t *array,
   if(!array_valid_index(array, index1) || !array_valid_index(array, index2)){
     return false;
   }
-  void *elem1 = array_get(array, index1);
-  void *elem2 = array_get(array, index2);
-  char *buffer = (char *)alloca(array->elem_size);
-  memcpy(buffer, elem1, array->elem_size);
-  memcpy(elem1, elem2, array->elem_size);
-  memcpy(elem2, buffer, array->elem_size);
+	void* elem1 = array_get(array, index1);
+	void* elem2 = array_get(array, index2);
+	void* buffer = array->alloc.malloc(array->elem_size);
+	memcpy(buffer, elem1, array->elem_size);
+	memcpy(elem1, elem2, array->elem_size);
+	memcpy(elem2, buffer, array->elem_size);
+	array->alloc.free(buffer);
   return true;
 }
