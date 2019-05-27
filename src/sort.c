@@ -30,7 +30,7 @@ void array_sort_bubblesort_std(array_t *array)
     for(i = 0; i < n - 1; i++){
       void *elem1 = array_get(array, i);
       void *elem2 = array_get(array, i + 1);
-      if(compare_std(elem1, elem2) > 0){
+      if(compare_std(elem1, elem2, array->elem_size) > 0){
         array_swap(array, i, i + 1);
         newn = i + 1;
       }

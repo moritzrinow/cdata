@@ -96,22 +96,16 @@ bool array_swap_safe(array_t *array,
                      uint32_t index2);
 
 #define ARRAY_PUSH(array, type, elem) \
-( \
   { \
     type val = elem; \
     bool pushed = array_push_value(array, &val); \
-    pushed; \
-  } \
-)
+  }
 
 #define ARRAY_PUSH_MANY(array, type, num, elem) \
-( \
   { \
     type val = elem; \
-    bool pushed = array_push_many(array, num &val); \
-    pushed; \
-  } \
-)
+    bool pushed = array_push_many(array, num, &val); \
+  }
 
 #define ARRAY_CONTAINS(array, type, equal_func, elem) \
 ( \

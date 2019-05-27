@@ -9,7 +9,7 @@ extern "C" {
 
 typedef struct list_node_s {
   void                    *data;
-  list_node_t             *next;
+  struct list_node_s      *next;
 } list_node_t;
 
 typedef struct list_s {

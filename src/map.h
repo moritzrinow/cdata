@@ -16,7 +16,7 @@ typedef struct map_func_s {
 } map_func_t;
 
 typedef struct map_entry_s {
-  map_entry_t             *next;
+  struct map_entry_s      *next;
   void                    *key;
   void                    *value;
 } map_entry_t;
@@ -39,7 +39,7 @@ bool map_init(map_t *map,
 void map_destroy(map_t *map);
 void *map_add_key(map_t *map,
                   void *key);
-bool map_add_key_value(map_t *map,
+void *map_add_key_value(map_t *map,
                        void *key,
                        void *value);
 void *map_lookup(map_t *map,

@@ -29,7 +29,7 @@ void map_entry_destroy(map_t *map,
     map->func.key_destroy(entry->key);
   }
   if(map->func.val_destroy != NULL){
-    map->func.val_destroy(entry->val);
+    map->func.val_destroy(entry->value);
   }
 }
 
@@ -56,11 +56,10 @@ bool map_init(map_t *map,
   }
   map->func = func;
   map->entries.alloc = map->alloc;
-  if(!array_init(&map->entries, sizeof(map_entry_t *), size, false){
+  if(!array_init(&map->entries, sizeof(map_entry_t *), size, false)){
     return false;
   }
-  ARRAY_PUSH_MANY(&map->enties, map_entry_t *, size, NULL);
-
+  ARRAY_PUSH_MANY(&map->entries, map_entry_t *, size, NULL);
   return true;
 }
 
@@ -93,7 +92,7 @@ static map_entry_t *map_add_entry(map_t *map,
     return NULL;
   }
   map_entry_init(entry);
-  hash = map->func.hash_key(key);
+  hash = map->func.key_hash(key);
   uint32_t index = hash % map->entries.num_elem;
   map_entry_t **head = ARRAY_GET(&map->entries, map_entry_t *, index);
   entry->next = *head;
@@ -146,7 +145,7 @@ void map_remove(map_t *map,
   if(map->entries.num_elem < 1) {
     return;
   }
-  uint32_t index = map->func.hash_key(key) % map->num_elem;
+  uint32_t index = map->func.key_hash(key) % map->entries.num_elem;
   map_entry_t **walker = &(ARRAY_GET_VAL(&map->entries, map_entry_t *, index));
   if(!walker){
     return;
@@ -159,7 +158,7 @@ void map_remove(map_t *map,
   }
   map_entry_t *to_remove = *walker;
   *walker = to_remove->next;
-  map_entry_destroy(mpa, to_remove);
+  map_entry_destroy(map, to_remove);
   map->alloc.free(to_remove);
 }
 

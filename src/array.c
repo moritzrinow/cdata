@@ -265,7 +265,7 @@ void *array_find_last(array_t *array,
                       array_equal_func_t equal,
                       void *elem)
 {
-  uint32_t i;
+  int32_t i;
   uint32_t num_elem = array->num_elem;
 
   for(i = num_elem - 1; i >= 0; i--){
@@ -317,7 +317,7 @@ void *array_find_first_std(array_t *array,
 void *array_find_last_std(array_t *array,
                           void *elem)
 {
-  uint32_t i;
+  int32_t i;
   uint32_t num_elem = array->num_elem;
 
   for(i = num_elem - 1; i >= 0; i--){
