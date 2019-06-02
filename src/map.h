@@ -55,10 +55,13 @@ bool map_contains_key(map_t *map,
                       void *key);
 void map_remove(map_t *map,
                 void *key);
+bool map_rehash(map_t *map);
 
 typedef void (*map_foreach_key_func_t)(void *);
+typedef void (*map_foreach_key_val_func_t)(void *, void *);
 void map_foreach_key(map_t *map,
 		     map_foreach_key_func_t action);
+void map_
 
 uint32_t map_key_hash_int8(void *);
 uint32_t map_key_hash_int16(void *);

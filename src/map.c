@@ -168,10 +168,18 @@ void map_remove(map_t *map,
 	map->num_elem--;
 }
 
+bool map_rehash(map_t *map)
+{
+	return false;
+}
+
 void map_foreach_key(map_t *map,
 										 map_foreach_key_func_t action)
 {
-
+	map_iterator_t iterator;
+	for(map_iterator_init(&iterator, map); iterator.current != NULL; map_iterator_next(&iterator)){
+		action(iterator.current->key);
+	}
 }
 
 uint32_t map_key_hash_int8(void *key)
