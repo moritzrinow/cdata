@@ -67,6 +67,11 @@ int test_common()
 	value = (char *)map_lookup(&map, key4);
 	value = (char *)map_lookup(&map, key5);
 
+	map_iterator_t iterator;
+	for(map_iterator_init(&iterator, &map); iterator.current != NULL; map_iterator_next(&iterator)){
+		printf("%d:%s\n", *(int32_t *)iterator.current->key, iterator.current->value);
+	}
+
 	map_destroy(&map);
 	return 0;
 }

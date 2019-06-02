@@ -54,6 +54,7 @@ bool map_init(map_t *map,
   if(std_alloc){
     map->alloc = alloc_std;
   }
+	map->num_elem = 0;
   map->func = func;
   map->entries.alloc = map->alloc;
   if(!array_init(&map->entries, sizeof(map_entry_t *), size, false)){
@@ -73,6 +74,7 @@ void map_destroy(map_t *map)
     }
   }
   array_destroy(&map->entries);
+	map->num_elem = 0;
 }
 
 static map_entry_t *map_add_entry(map_t *map,
@@ -97,6 +99,7 @@ static map_entry_t *map_add_entry(map_t *map,
   map_entry_t **head = ARRAY_GET(&map->entries, map_entry_t *, index);
   entry->next = *head;
   *head = entry;
+	map->num_elem++;
   return entry;
 }
 
@@ -162,6 +165,7 @@ void map_remove(map_t *map,
   *walker = to_remove->next;
   map_entry_destroy(map, to_remove);
   map->alloc.free(to_remove);
+	map->num_elem--;
 }
 
 void map_foreach_key(map_t *map,
@@ -223,4 +227,51 @@ uint32_t map_key_hash_float64(void *key)
 uint32_t map_key_hash_str(void *key)
 {
   return hash_str((uint8_t *)key);
+}
+
+bool map_iterator_init(map_iterator_t *iterator,
+											 map_t *map)
+{
+	iterator->map = map;
+	iterator->index = 0;
+	return map_iterator_first(iterator);
+}
+
+bool map_iterator_next(map_iterator_t *iterator)
+{
+	map_entry_t *entry = iterator->current;
+	if(entry != NULL){
+		if(entry->next != NULL){
+			iterator->current = entry->next;
+			return true;
+		}
+	}
+
+	uint32_t *i = &iterator->index;
+	for((*i)++; *i < iterator->map->entries.num_elem; (*i)++){
+		entry = ARRAY_GET_VAL(&iterator->map->entries, map_entry_t *, *i);
+		if(entry != NULL){
+			iterator->current = entry;
+			return true;
+		}
+	}
+	iterator->current = NULL;
+	return false;
+}
+
+bool map_iterator_first(map_iterator_t *iterator)
+{
+	map_entry_t *entry = ARRAY_GET_VAL(&iterator->map->entries, map_entry_t *, 0);
+	if(entry != NULL){
+		iterator->current = entry;
+		return true;
+	}
+	for(uint32_t *i = &iterator->index; *i < iterator->map->entries.num_elem; (*i)++){
+		entry = ARRAY_GET_VAL(&iterator->map->entries, map_entry_t *, *i);
+		if(entry != NULL){
+			iterator->current = entry;
+			return true;
+		}
+	}
+	return false;
 }

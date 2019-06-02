@@ -112,9 +112,9 @@ int test_sorting_numbers()
 
 int main(int argc, char **argv)
 {
-	EXEC_TEST("AddingNumbers", test_adding_numbers, 1000000);
-	EXEC_TEST("BubblesortNumbers", test_sorting_numbers, 1000000);
-	EXEC_TEST("Shrink", test_shrink, 1000000);
+	EXEC_TEST("AddingNumbers", test_adding_numbers, 1000);
+	EXEC_TEST("BubblesortNumbers", test_sorting_numbers, 1000);
+	EXEC_TEST("Shrink", test_shrink, 1000);
 
   return 0;
 }
