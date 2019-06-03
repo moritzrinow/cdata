@@ -25,13 +25,13 @@ typedef struct map_s {
   alloc_t            alloc;
   array_t            entries;
   map_func_t         func;
-	uint32_t					 num_elem;
+  uint32_t					 num_elem;
 } map_t;
 
 typedef struct map_iterator_s {
-	map_t											 *map;
-	map_entry_t								 *current;
-	uint32_t										index;
+  map_t                      *map;
+  map_entry_t                *current;
+  uint32_t                    index;
 } map_iterator_t;
 
 void map_entry_init(map_entry_t *entry);
@@ -60,8 +60,7 @@ bool map_rehash(map_t *map);
 typedef void (*map_foreach_key_func_t)(void *);
 typedef void (*map_foreach_key_val_func_t)(void *, void *);
 void map_foreach_key(map_t *map,
-		     map_foreach_key_func_t action);
-void map_
+		                 map_foreach_key_func_t action);
 
 uint32_t map_key_hash_int8(void *);
 uint32_t map_key_hash_int16(void *);
@@ -79,7 +78,7 @@ uint32_t map_key_hash_float64(void *);
 uint32_t map_key_hash_str(void *);
 
 bool map_iterator_init(map_iterator_t *iterator,
-											 map_t *map);
+                       map_t *map);
 bool map_iterator_next(map_iterator_t *iterator);
 bool map_iterator_first(map_iterator_t *iterator);
 

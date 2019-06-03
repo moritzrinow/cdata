@@ -238,7 +238,7 @@ uint32_t map_key_hash_str(void *key)
 }
 
 bool map_iterator_init(map_iterator_t *iterator,
-											 map_t *map)
+                       map_t *map)
 {
 	iterator->map = map;
 	iterator->index = 0;
