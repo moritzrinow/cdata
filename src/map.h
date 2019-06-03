@@ -8,6 +8,11 @@ extern "C" {
 #include "array.h"
 #include "types.h"
 
+typedef struct key_val_pair_s {
+  void                       *key;
+  void                       *val;
+} key_val_pair_t;
+
 typedef struct map_func_s {
   bool                  (*key_compare)(void *, void *);
   uint32_t              (*key_hash)(void *);
@@ -56,11 +61,15 @@ bool map_contains_key(map_t *map,
 void map_remove(map_t *map,
                 void *key);
 bool map_rehash(map_t *map);
+void map_merge(map_t *target,
+               map_t *source);
 
 typedef void (*map_foreach_key_func_t)(void *);
-typedef void (*map_foreach_key_val_func_t)(void *, void *);
+typedef void (*map_foreach_key_val_func_t)(key_val_pair_t pair);
 void map_foreach_key(map_t *map,
                      map_foreach_key_func_t action);
+void map_foreach_key_val(map_t *map,
+                         map_foreach_key_val_func_t action);
 
 uint32_t map_key_hash_int8(void *);
 uint32_t map_key_hash_int16(void *);

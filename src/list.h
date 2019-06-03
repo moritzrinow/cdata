@@ -1,4 +1,5 @@
 #ifndef _LIST_H
+
 #define _LIST_H
 
 #ifdef __cplusplus
@@ -7,22 +8,59 @@ extern "C" {
 
 #include "types.h"
 
+
+typedef struct list_func_s {
+  void                   (*node_destroy)(list_node_t *);
+} list_func_t;
+
 typedef struct list_node_s {
   void                    *data;
-  struct list_node_s      *next;
+  list_node_t             *next;
 } list_node_t;
 
 typedef struct list_s {
   list_node_t        *head;
+  list_node_t        *tail;
   uint32_t            num_elem;
+  list_func_t         func;
 } list_t;
 
-void list_node_init(list_node_t *node);
-
-void list_init(list_t *list);
+void list_init(list_t *list,
+               list_func_t func);
+void list_push_front(list_t *list,
+                     list_node_t *node);
+void list_push_tail(list_t *list,
+                    list_node_t *node);
+list_node_t *list_pop_front(list_t *list);
 void list_destroy(list_t *list);
-list_node_t *list_add(list_t *list);
-list_node_t *list_tail(list_t *list);
+
+typedef struct list_double_func_s {
+  void                          (*node_destroy)(list_double_node_t *);
+} list_double_func_t;
+
+typedef struct list_double_node_s {
+  void                           *data;
+  list_double_node_t             *next;
+  list_double_node_t             *prev;
+} list_double_node_t;
+
+typedef struct list_double_s {
+  list_double_node_t        *head;
+  list_double_node_t        *tail;
+  uint32_t                   num_elem;
+  list_double_func_t         func;
+} list_double_t;
+
+void list_double_init(list_double_t *list,
+                      list_double_func_t func);
+void list_double_push_front(list_double_t *list,
+                            list_double_node_t *node);
+void list_double_push_tail(list_double_t *list,
+                           list_double_node_t *node);
+list_double_node_t *list_double_pop_front(list_double_t *list);
+list_double_node_t *list_double_pop_tail(list_double_t *list);
+void list_double_destroy(list_double_t *list);
+
 
 #ifdef __cplusplus
 }

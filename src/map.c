@@ -173,12 +173,33 @@ bool map_rehash(map_t *map)
 	return false;
 }
 
+void map_merge(map_t *target,
+               map_t *source)
+{
+  map_iterator_t iterator;
+	for(map_iterator_init(&iterator, source); iterator.current != NULL; map_iterator_next(&iterator)){
+    map_add_key_value(target, iterator.current->key, iterator.current->value);
+	}
+}
+
 void map_foreach_key(map_t *map,
 										 map_foreach_key_func_t action)
 {
 	map_iterator_t iterator;
 	for(map_iterator_init(&iterator, map); iterator.current != NULL; map_iterator_next(&iterator)){
 		action(iterator.current->key);
+	}
+}
+
+void map_foreach_key_val(map_t *map,
+                         map_foreach_key_val_func_t action)
+{
+  map_iterator_t iterator;
+	for(map_iterator_init(&iterator, map); iterator.current != NULL; map_iterator_next(&iterator)){
+    key_val_pair_t pair;
+    pair.key = iterator.current->key;
+    pair.val = iterator.current->value;
+		action(pair);
 	}
 }
 
