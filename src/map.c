@@ -165,7 +165,7 @@ void map_remove(map_t *map,
   *walker = to_remove->next;
   map_entry_destroy(map, to_remove);
   map->alloc.free(to_remove);
-	map->num_elem--;
+  map->num_elem--;
 }
 
 bool map_rehash(map_t *map)
@@ -179,7 +179,7 @@ void map_merge(map_t *target,
   map_iterator_t iterator;
   for(map_iterator_init(&iterator, source); iterator.current != NULL; map_iterator_next(&iterator)){
     map_add_key_value(target, iterator.current->key, iterator.current->value);
-	}
+  }
 }
 
 void map_foreach_key(map_t *map,
@@ -187,7 +187,7 @@ void map_foreach_key(map_t *map,
 {
 	map_iterator_t iterator;
 	for(map_iterator_init(&iterator, map); iterator.current != NULL; map_iterator_next(&iterator)){
-		action(iterator.current->key);
+    action(iterator.current->key);
 	}
 }
 
@@ -195,12 +195,12 @@ void map_foreach_key_val(map_t *map,
                          map_foreach_key_val_func_t action)
 {
   map_iterator_t iterator;
-	for(map_iterator_init(&iterator, map); iterator.current != NULL; map_iterator_next(&iterator)){
+  for(map_iterator_init(&iterator, map); iterator.current != NULL; map_iterator_next(&iterator)){
     key_val_pair_t pair;
     pair.key = iterator.current->key;
     pair.val = iterator.current->value;
-		action(pair);
-	}
+    action(pair);
+  }
 }
 
 uint32_t map_key_hash_int8(void *key)
