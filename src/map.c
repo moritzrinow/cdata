@@ -177,7 +177,7 @@ void map_merge(map_t *target,
                map_t *source)
 {
   map_iterator_t iterator;
-	for(map_iterator_init(&iterator, source); iterator.current != NULL; map_iterator_next(&iterator)){
+  for(map_iterator_init(&iterator, source); iterator.current != NULL; map_iterator_next(&iterator)){
     map_add_key_value(target, iterator.current->key, iterator.current->value);
 	}
 }
