@@ -8,6 +8,8 @@ extern "C" {
 
 #include "types.h"
 
+struct list_node_s;
+typedef struct list_node_s list_node_t;
 
 typedef struct list_func_s {
   void                   (*node_destroy)(list_node_t *);
@@ -22,7 +24,7 @@ typedef struct list_s {
   list_node_t        *head;
   list_node_t        *tail;
   uint32_t            num_elem;
-  list_func_t         func;
+  list_func_t         func;  
 } list_t;
 
 void list_init(list_t *list,
@@ -33,6 +35,9 @@ void list_push_tail(list_t *list,
                     list_node_t *node);
 list_node_t *list_pop_front(list_t *list);
 void list_destroy(list_t *list);
+
+struct list_double_node_s;
+typedef struct list_double_node_s list_double_node_t;
 
 typedef struct list_double_func_s {
   void                          (*node_destroy)(list_double_node_t *);

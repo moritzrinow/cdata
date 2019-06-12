@@ -6,7 +6,7 @@ static map_entry_t *map_lookup_entry(map_t *map,
 {
   map_entry_t *entry;
   uint32_t hash = map->func.key_hash(key);
-	uint32_t index = hash % map->entries.num_elem;
+  uint32_t index = hash % map->entries.num_elem;
   for(entry = ARRAY_GET_VAL(&map->entries, map_entry_t *, index); entry != NULL; entry = entry->next){
     if(map->func.key_compare(entry->key, key)){
       return entry;
@@ -54,7 +54,7 @@ bool map_init(map_t *map,
   if(std_alloc){
     map->alloc = alloc_std;
   }
-	map->num_elem = 0;
+  map->num_elem = 0;
   map->func = func;
   map->entries.alloc = map->alloc;
   if(!array_init(&map->entries, sizeof(map_entry_t *), size, false)){
@@ -74,7 +74,7 @@ void map_destroy(map_t *map)
     }
   }
   array_destroy(&map->entries);
-	map->num_elem = 0;
+  map->num_elem = 0;
 }
 
 static map_entry_t *map_add_entry(map_t *map,
@@ -99,7 +99,7 @@ static map_entry_t *map_add_entry(map_t *map,
   map_entry_t **head = ARRAY_GET(&map->entries, map_entry_t *, index);
   entry->next = *head;
   *head = entry;
-	map->num_elem++;
+  map->num_elem++;
   return entry;
 }
 
@@ -110,7 +110,7 @@ void *map_add_key(map_t *map,
   if(!entry){
     return NULL;
   }
-	entry->key = key;
+  entry->key = key;
   return entry->value;
 }
 
@@ -122,7 +122,7 @@ void *map_add_key_value(map_t *map,
   if(!entry){
     return NULL;
   }
-	entry->key = key;
+  entry->key = key;
   entry->value = value;
   return entry->value;
 }
@@ -185,10 +185,10 @@ void map_merge(map_t *target,
 void map_foreach_key(map_t *map,
 										 map_foreach_key_func_t action)
 {
-	map_iterator_t iterator;
-	for(map_iterator_init(&iterator, map); iterator.current != NULL; map_iterator_next(&iterator)){
+  map_iterator_t iterator;
+  for(map_iterator_init(&iterator, map); iterator.current != NULL; map_iterator_next(&iterator)){
     action(iterator.current->key);
-	}
+  }
 }
 
 void map_foreach_key_val(map_t *map,
@@ -261,46 +261,46 @@ uint32_t map_key_hash_str(void *key)
 bool map_iterator_init(map_iterator_t *iterator,
                        map_t *map)
 {
-	iterator->map = map;
-	iterator->index = 0;
-	return map_iterator_first(iterator);
+  iterator->map = map;
+  iterator->index = 0;
+  return map_iterator_first(iterator);
 }
 
 bool map_iterator_next(map_iterator_t *iterator)
 {
-	map_entry_t *entry = iterator->current;
-	if(entry != NULL){
-		if(entry->next != NULL){
-			iterator->current = entry->next;
-			return true;
-		}
-	}
+  map_entry_t *entry = iterator->current;
+  if(entry != NULL){
+    if(entry->next != NULL){
+      iterator->current = entry->next;
+      return true;
+    }
+  }
 
-	uint32_t *i = &iterator->index;
-	for((*i)++; *i < iterator->map->entries.num_elem; (*i)++){
-		entry = ARRAY_GET_VAL(&iterator->map->entries, map_entry_t *, *i);
-		if(entry != NULL){
-			iterator->current = entry;
-			return true;
-		}
-	}
-	iterator->current = NULL;
-	return false;
+  uint32_t *i = &iterator->index;
+  for((*i)++; *i < iterator->map->entries.num_elem; (*i)++){
+    entry = ARRAY_GET_VAL(&iterator->map->entries, map_entry_t *, *i);
+    if(entry != NULL){
+      iterator->current = entry;
+      return true;
+    }
+  }
+  iterator->current = NULL;
+  return false;
 }
 
 bool map_iterator_first(map_iterator_t *iterator)
 {
-	map_entry_t *entry = ARRAY_GET_VAL(&iterator->map->entries, map_entry_t *, 0);
-	if(entry != NULL){
-		iterator->current = entry;
-		return true;
-	}
-	for(uint32_t *i = &iterator->index; *i < iterator->map->entries.num_elem; (*i)++){
-		entry = ARRAY_GET_VAL(&iterator->map->entries, map_entry_t *, *i);
-		if(entry != NULL){
-			iterator->current = entry;
-			return true;
-		}
-	}
-	return false;
+  map_entry_t *entry = ARRAY_GET_VAL(&iterator->map->entries, map_entry_t *, 0);
+  if(entry != NULL){
+    iterator->current = entry;
+    return true;
+  }
+  for(uint32_t *i = &iterator->index; *i < iterator->map->entries.num_elem; (*i)++){
+    entry = ARRAY_GET_VAL(&iterator->map->entries, map_entry_t *, *i);
+    if(entry != NULL){
+      iterator->current = entry;
+      return true;
+    }
+  }
+  return false;
 }
