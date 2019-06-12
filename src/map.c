@@ -183,7 +183,7 @@ void map_merge(map_t *target,
 }
 
 void map_foreach_key(map_t *map,
-										 map_foreach_key_func_t action)
+                     map_foreach_key_func_t action)
 {
   map_iterator_t iterator;
   for(map_iterator_init(&iterator, map); iterator.current != NULL; map_iterator_next(&iterator)){

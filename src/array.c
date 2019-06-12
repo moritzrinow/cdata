@@ -392,7 +392,7 @@ void array_swap(array_t *array,
   memcpy(buffer, elem1, array->elem_size);
   memcpy(elem1, elem2, array->elem_size);
   memcpy(elem2, buffer, array->elem_size);
-	array->alloc.free(buffer);
+  array->alloc.free(buffer);
 }
 
 bool array_swap_safe(array_t *array,
@@ -402,12 +402,12 @@ bool array_swap_safe(array_t *array,
   if(!array_valid_index(array, index1) || !array_valid_index(array, index2)){
     return false;
   }
-	void* elem1 = array_get(array, index1);
-	void* elem2 = array_get(array, index2);
-	void* buffer = array->alloc.malloc(array->elem_size);
-	memcpy(buffer, elem1, array->elem_size);
-	memcpy(elem1, elem2, array->elem_size);
-	memcpy(elem2, buffer, array->elem_size);
-	array->alloc.free(buffer);
+  void* elem1 = array_get(array, index1);
+  void* elem2 = array_get(array, index2);
+  void* buffer = array->alloc.malloc(array->elem_size);
+  memcpy(buffer, elem1, array->elem_size);
+  memcpy(elem1, elem2, array->elem_size);
+  memcpy(elem2, buffer, array->elem_size);
+  array->alloc.free(buffer);
   return true;
 }
