@@ -3,11 +3,49 @@
 #include <stdio.h>
 #include "test.h"
 
+void print_int_str(key_val_pair_t pair)
+{
+  int32_t key = *(int32_t *)pair.key;
+  char *val = (char *)pair.val;
+  printf("%d:%s\n", key, val);
+}
+
 bool key_compare_int32(void *n1, void *n2)
 {
 	int32_t *ptr1 = (int32_t *)n1;
 	int32_t *ptr2 = (int32_t *)n2;
 	return *ptr1 == *ptr2;
+}
+
+int test_rehash()
+{
+  bool result;
+	map_t map;
+	map_func_t f;
+	f.key_compare = key_compare_int32;
+	f.key_destroy = free;
+	f.key_hash = hash_int32;
+	f.val_destroy = NULL;
+  char *str = "A nice little sentence";
+
+  result = map_init(&map, 5, f, true);
+	if(!result){
+		return 1;
+	}
+
+  for(int32_t i = 0; i < 10; i++){
+    int32_t *key = (int32_t *)malloc(sizeof(int32_t));
+    *key = i;
+    void *val = map_add_key_value(&map, key, str);
+    if(!val){
+      return 1;
+    }
+  }
+  //map_foreach_key_val(&map, print_int_str);
+  map_rehash(&map);
+  //map_foreach_key_val(&map, print_int_str);
+  map_destroy(&map);
+  return 0;
 }
 
 int test_common()
@@ -71,7 +109,8 @@ int test_common()
 
 int main(int argc, char **argv)
 {
-	EXEC_TEST("Common", test_common, 1000000);
+	EXEC_TEST("Common", test_common, 0);
+  EXEC_TEST("Rehash", test_rehash, 1000000);
 
   return 0;
 }

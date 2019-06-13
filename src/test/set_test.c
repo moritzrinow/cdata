@@ -43,6 +43,18 @@ int test_common()
   int32_t f = 5023423;
   result = set_lookup(&set, &f);
 
+  set_remove(&set, &a);
+  set_remove(&set, &b);
+  set_remove(&set, &c);
+  set_remove(&set, &d);
+  set_remove(&set, &e);
+
+  result = set_lookup(&set, &a);
+  result = set_lookup(&set, &b);
+  result = set_lookup(&set, &c);
+  result = set_lookup(&set, &d);
+  result = set_lookup(&set, &e);
+
   set_destroy(&set);
   return 0;
 }

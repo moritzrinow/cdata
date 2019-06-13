@@ -39,11 +39,6 @@ typedef struct map_iterator_s {
   uint32_t                    index;
 } map_iterator_t;
 
-void map_entry_init(map_entry_t *entry);
-void map_entry_destroy(map_t *map,
-                       map_entry_t *entry);
-void map_entry_destroy_recursive(map_t *map,
-                                 map_entry_t *head);
 bool map_init(map_t *map,
               uint32_t size,
               map_func_t func,

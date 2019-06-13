@@ -27,12 +27,6 @@ typedef struct set_s {
   uint32_t           num_elem;
 } set_t;
 
-void set_entry_init(set_entry_t *entry);
-void set_entry_destroy(set_t *set,
-                       set_entry_t *entry);
-void set_entry_destroy_recursive(set_t *set,
-                                 set_entry_t *head);
-
 bool set_init(set_t *set,
               uint32_t size,
               set_func_t func,
@@ -41,6 +35,8 @@ void set_destroy(set_t *set);
 bool set_add_elem(set_t *set,
                   void *elem);
 bool set_lookup(set_t *set,
+                void *elem);
+void set_remove(set_t *set,
                 void *elem);
 
 #ifdef __cplusplus

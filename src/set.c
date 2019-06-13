@@ -1,5 +1,11 @@
 #include "set.h"
 
+void set_entry_init(set_entry_t *entry);
+void set_entry_destroy(set_t *set,
+                       set_entry_t *entry);
+void set_entry_destroy_recursive(set_t *set,
+                                 set_entry_t *head);
+
 static set_entry_t *set_lookup_entry(set_t *set,
                                      void *elem)
 {
@@ -103,4 +109,22 @@ bool set_lookup(set_t *set,
                 void *elem)
 {
   return set_lookup_entry(set, elem) != NULL;
+}
+
+void set_remove(set_t *set,
+                void *elem)
+{
+  if(set->entries.num_elem < 1){
+    return;
+  }
+  uint32_t index = set->func.elem_hash(elem) % set->entries.num_elem;
+  set_entry_t **walker = &(ARRAY_GET_VAL(&set->entries, set_entry_t *, index));
+  if(!walker){
+    return;
+  }
+  set_entry_t *to_remove = *walker;
+  *walker = to_remove->next;
+  set_entry_destroy(set, to_remove);
+  set->alloc.free(to_remove);
+  set->num_elem--;
 }

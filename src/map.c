@@ -1,6 +1,12 @@
 #include "hash.h"
 #include "map.h"
 
+void map_entry_init(map_entry_t *entry);
+void map_entry_destroy(map_t *map,
+                       map_entry_t *entry);
+void map_entry_destroy_recursive(map_t *map,
+                                 map_entry_t *head);
+
 static map_entry_t *map_lookup_entry(map_t *map,
                                      void *key)
 {
@@ -170,7 +176,25 @@ void map_remove(map_t *map,
 
 bool map_rehash(map_t *map)
 {
-	return false;
+  bool result;
+  map_t copy;
+  
+  copy.alloc = map->alloc;
+  result = map_init(&copy, map->num_elem, map->func, false);
+  if(!result){
+    return false;
+  }
+  map_merge(&copy, map);
+  if(copy.num_elem != map->num_elem){
+    return false;
+  }
+
+  // We don't want to destroy keys and values of the maps previous version
+  map->func.key_destroy = NULL;
+  map->func.val_destroy = NULL;
+  map_destroy(map);
+  *map = copy;
+	return true;
 }
 
 void map_merge(map_t *target,
