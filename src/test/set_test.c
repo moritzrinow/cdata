@@ -3,9 +3,9 @@
 
 bool compare_int32(void *n1, void *n2)
 {
-	int32_t *ptr1 = (int32_t *)n1;
-	int32_t *ptr2 = (int32_t *)n2;
-	return *ptr1 == *ptr2;
+  int32_t *ptr1 = (int32_t *)n1;
+  int32_t *ptr2 = (int32_t *)n2;
+  return *ptr1 == *ptr2;
 }
 
 int test_common()
