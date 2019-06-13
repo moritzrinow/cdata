@@ -1,6 +1,10 @@
 #ifndef _SET_H
 #define _SET_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
 #include "array.h"
 #include "types.h"
 #include "hash.h"
@@ -38,5 +42,9 @@ bool set_add_elem(set_t *set,
                   void *elem);
 bool set_lookup(set_t *set,
                 void *elem);
+
+#ifdef __cplusplus
+}
+#endif // __cplusplus
 
 #endif // _SET_H
