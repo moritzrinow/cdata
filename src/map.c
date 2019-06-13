@@ -194,7 +194,7 @@ bool map_rehash(map_t *map)
   map->func.val_destroy = NULL;
   map_destroy(map);
   *map = copy;
-	return true;
+  return true;
 }
 
 void map_merge(map_t *target,
