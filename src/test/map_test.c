@@ -1,14 +1,7 @@
 #include "cdata.h"
 #include <string.h>
 #include <stdio.h>
-
-#define EXEC_TEST(name, func, n) \
-for(int i = 0; i < n; i++){ \
-	int ret = func(); \
-	if(ret != 0){ \
-		printf("Test '%s' executed with code: %d in cycle %d.\n", name, ret, n); \
-	} \
-}
+#include "test.h"
 
 bool key_compare_int32(void *n1, void *n2)
 {
@@ -24,7 +17,7 @@ int test_common()
 	map_func_t f;
 	f.key_compare = key_compare_int32;
 	f.key_destroy = free;
-	f.key_hash = map_key_hash_int32;
+	f.key_hash = hash_int32;
 	f.val_destroy = free;
 
 	result = map_init(&map, 1024, f, true);

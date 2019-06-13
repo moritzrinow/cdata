@@ -71,21 +71,6 @@ void map_foreach_key(map_t *map,
 void map_foreach_key_val(map_t *map,
                          map_foreach_key_val_func_t action);
 
-uint32_t map_key_hash_int8(void *);
-uint32_t map_key_hash_int16(void *);
-uint32_t map_key_hash_int32(void *);
-uint32_t map_key_hash_int64(void *);
-
-uint32_t map_key_hash_uint8(void *);
-uint32_t map_key_hash_uint16(void *);
-uint32_t map_key_hash_uint32(void *);
-uint32_t map_key_hash_uint64(void *);
-
-uint32_t map_key_hash_float32(void *);
-uint32_t map_key_hash_float64(void *);
-
-uint32_t map_key_hash_str(void *);
-
 bool map_iterator_init(map_iterator_t *iterator,
                        map_t *map);
 bool map_iterator_next(map_iterator_t *iterator);

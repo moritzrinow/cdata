@@ -203,61 +203,6 @@ void map_foreach_key_val(map_t *map,
   }
 }
 
-uint32_t map_key_hash_int8(void *key)
-{
-  return hash_data((uint8_t *)key, sizeof(int8_t));
-}
-
-uint32_t map_key_hash_int16(void *key)
-{
-  return hash_data((uint8_t *)key, sizeof(int16_t));
-}
-
-uint32_t map_key_hash_int32(void *key)
-{
-  return hash_data((uint8_t *)key, sizeof(int32_t));
-}
-
-uint32_t map_key_hash_int64(void *key)
-{
-  return hash_data((uint8_t *)key, sizeof(int64_t));
-}
-
-uint32_t map_key_hash_uint8(void *key)
-{
-  return hash_data((uint8_t *)key, sizeof(uint8_t));
-}
-
-uint32_t map_key_hash_uint16(void *key)
-{
-  return hash_data((uint8_t *)key, sizeof(uint16_t));
-}
-
-uint32_t map_key_hash_uint32(void *key)
-{
-  return hash_data((uint8_t *)key, sizeof(uint32_t));
-}
-
-uint32_t map_key_hash_uint64(void *key)
-{
-  return hash_data((uint8_t *)key, sizeof(uint64_t));
-}
-
-uint32_t map_key_hash_float32(void *key)
-{
-  return hash_data((uint8_t *)key, sizeof(float));
-}
-
-uint32_t map_key_hash_float64(void *key)
-{
-  return hash_data((uint8_t *)key, sizeof(double));
-}
-
-uint32_t map_key_hash_str(void *key)
-{
-  return hash_str((uint8_t *)key);
-}
-
 bool map_iterator_init(map_iterator_t *iterator,
                        map_t *map)
 {

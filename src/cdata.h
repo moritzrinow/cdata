@@ -7,5 +7,6 @@
 #include "map.h"
 #include "hash.h"
 #include "sort.h"
+#include "set.h"
 
 #endif // _CDATA_H
