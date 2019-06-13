@@ -19,8 +19,8 @@ set(cdata_SOURCES
     src/hash.c
     src/sort.h
     src/sort.c
-	src/set.h
-	src/set.c
+    src/set.h
+    src/set.c
 )
 
 # add cdata library
