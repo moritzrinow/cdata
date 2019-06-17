@@ -39,7 +39,8 @@ void array_remove(array_t *array,
                   uint32_t index);
 bool array_resize(array_t *array,
                   uint32_t size);
-bool array_reserve(array_t *array, size_t num);
+bool array_reserve(array_t *array,
+                   size_t num);
 bool array_shrink(array_t *array);
 void *array_insert_safe(array_t *array,
                         uint32_t index);
