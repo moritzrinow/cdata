@@ -417,3 +417,55 @@ bool array_swap_safe(array_t *array,
   array->alloc.free(buffer);
   return true;
 }
+
+bool array_iterator_init(array_iterator_t *iterator,
+                         array_t *array)
+{
+  iterator->array = array;
+  iterator->index = 0;
+  iterator->current = NULL;
+  return array_iterator_first(iterator);
+}
+
+bool array_iterator_next(array_iterator_t *iterator)
+{
+  if(!array_valid_index(iterator->array, iterator->index + 1)){
+    iterator->current = NULL;
+    return false;
+  }
+  iterator->current = array_get(iterator->array, iterator->index + 1);
+  iterator->index++;
+  return true;
+}
+
+bool array_iterator_prev(array_iterator_t *iterator)
+{
+  if(!array_valid_index(iterator->array, iterator->index - 1)){
+    iterator->current = NULL;
+    return false;
+  }
+  iterator->current = array_get(iterator->array, iterator->index - 1);
+  iterator->index--;
+  return true;
+}
+
+bool array_iterator_first(array_iterator_t *iterator)
+{
+  if(!array_valid_index(iterator->array, 0)){
+    iterator->current = NULL;
+    return false;
+  }
+  iterator->current = array_get(iterator->array, 0);
+  return true;
+}
+
+bool array_iterator_last(array_iterator_t *iterator)
+{
+  if(iterator->array->num_elem < 1){
+    iterator->current = NULL;
+    return false;
+  }
+  iterator->current = array_get(iterator->array, iterator->array->num_elem - 1);
+  iterator->index = iterator->array->num_elem - 1;
+  return true;
+}

@@ -19,6 +19,12 @@ typedef struct array_s {
   uint32_t             num_alloc;
 } array_t;
 
+typedef struct array_iterator_s {
+  array_t                      *array;
+  void                         *current;
+  uint32_t                      index;
+} array_iterator_t;
+
 bool array_init(array_t *array,
                 size_t elem_size,
                 uint32_t num_alloc,
@@ -96,6 +102,13 @@ void array_swap(array_t *array,
 bool array_swap_safe(array_t *array,
                      uint32_t index1,
                      uint32_t index2);
+
+bool array_iterator_init(array_iterator_t *iterator,
+                         array_t *array);
+bool array_iterator_next(array_iterator_t *iterator);
+bool array_iterator_prev(array_iterator_t *iterator);
+bool array_iterator_first(array_iterator_t *iterator);
+bool array_iterator_last(array_iterator_t *iterator);
 
 #define ARRAY_PUSH(array, type, elem) \
   { \
