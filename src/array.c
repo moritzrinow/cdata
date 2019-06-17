@@ -176,6 +176,11 @@ bool array_resize(array_t *array,
   return array_resize_internal(array, size, false);
 }
 
+bool array_reserve(array_t *array, size_t num)
+{
+  return array_resize_internal(array, array->num_alloc + num, false);
+}
+
 bool array_shrink(array_t *array)
 {
   if(array->num_elem < array->num_alloc){
