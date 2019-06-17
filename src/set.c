@@ -128,3 +128,88 @@ void set_remove(set_t *set,
   set->alloc.free(to_remove);
   set->num_elem--;
 }
+
+void set_merge(set_t *target,
+               set_t *source)
+{
+  set_iterator_t iterator;
+  for(set_iterator_init(&iterator, source); iterator.current != NULL; set_iterator_next(&iterator)){
+    set_add_elem(target, iterator.current->elem);
+  }
+}
+
+bool set_rehash(set_t *set)
+{
+  bool result;
+  set_t copy;
+
+  copy.alloc = set->alloc;
+  result = set_init(&copy, set->num_elem, set->func, false);
+  if(!result){
+    return false;
+  }
+  set_merge(&copy, set);
+  if(copy.num_elem != set->num_elem){
+    return false;
+  }
+  set->func.elem_destroy = NULL;
+  set_destroy(set);
+  *set = copy;
+  return true;
+}
+
+void set_foreach_elem(set_t *set,
+                      set_foreach_elem_func_t action)
+{
+  set_iterator_t iterator;
+  for(set_iterator_init(&iterator, set); iterator.current != NULL; set_iterator_next(&iterator)){
+    action(iterator.current->elem);
+  }
+}
+
+bool set_iterator_init(set_iterator_t *iterator,
+                       set_t *set)
+{
+  iterator->set = set;
+  iterator->index = 0;
+  return set_iterator_first(iterator);
+}
+
+bool set_iterator_next(set_iterator_t *iterator)
+{
+  set_entry_t *entry = iterator->current;
+  if(entry != NULL){
+    if(entry->next != NULL){
+      iterator->current = entry->next;
+      return true;
+    }
+  }
+
+  uint32_t *i = &iterator->index;
+  for((*i)++; *i < iterator->set->entries.num_elem; (*i)++){
+    entry = ARRAY_GET_VAL(&iterator->set->entries, set_entry_t *, *i);
+    if(entry != NULL){
+      iterator->current = entry;
+      return true;
+    }
+  }
+  iterator->current = NULL;
+  return false;
+}
+
+bool set_iterator_first(set_iterator_t *iterator)
+{
+  set_entry_t *entry = ARRAY_GET_VAL(&iterator->set->entries, set_entry_t *, 0);
+  if(entry != NULL){
+    iterator->current = entry;
+    return true;
+  }
+  for(uint32_t *i = &iterator->index; *i < iterator->set->entries.num_elem; (*i)++){
+    entry = ARRAY_GET_VAL(&iterator->set->entries, set_entry_t *, *i);
+    if(entry != NULL){
+      iterator->current = entry;
+      return true;
+    }
+  }
+  return false;
+}

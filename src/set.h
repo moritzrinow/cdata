@@ -27,6 +27,12 @@ typedef struct set_s {
   uint32_t           num_elem;
 } set_t;
 
+typedef struct set_iterator_s {
+  set_t                      *set;
+  set_entry_t                *current;
+  uint32_t                    index;
+} set_iterator_t;
+
 bool set_init(set_t *set,
               uint32_t size,
               set_func_t func,
@@ -38,6 +44,18 @@ bool set_lookup(set_t *set,
                 void *elem);
 void set_remove(set_t *set,
                 void *elem);
+void set_merge(set_t *target,
+               set_t *source);
+bool set_rehash(set_t *set);
+
+typedef void (*set_foreach_elem_func_t)(void *);
+void set_foreach_elem(set_t *set,
+                      set_foreach_elem_func_t action);
+
+bool set_iterator_init(set_iterator_t *iterator,
+                       set_t *set);
+bool set_iterator_next(set_iterator_t *iterator);
+bool set_iterator_first(set_iterator_t *iterator);
 
 #ifdef __cplusplus
 }
