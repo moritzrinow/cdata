@@ -11,3 +11,5 @@ Content:
 - Queue (Circular Array)
 - Linked list (Singly-Linked, Doubly-Linked unfinished)
 - Sorting
+
+Every data structure can be used with custom allocators.
