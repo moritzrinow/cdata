@@ -8,5 +8,6 @@ Content:
 - Array
 - Hashset
 - Hashmap
-- Linked list
+- Queue
+- Linked list (Singly-Linked, Doubly-Linked unfinished)
 - Sorting
