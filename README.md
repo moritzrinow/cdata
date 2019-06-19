@@ -8,7 +8,7 @@ Content:
 - Array
 - Hashset
 - Hashmap
-- Queue (Circular Array)
+- Queue (Circular)
 - Linked list (Singly-Linked, Doubly-Linked unfinished)
 - Sorting
 
