@@ -18,11 +18,12 @@ int common_test()
   QUEUE_ENQUEUE(&q, int32_t, 677);
   QUEUE_ENQUEUE(&q, int32_t, 44);
 
-  elem = (int32_t *)queue_dequeue(&q);
-  elem = (int32_t *)queue_dequeue(&q);
-  elem = (int32_t *)queue_dequeue(&q);
-  elem = (int32_t *)queue_dequeue(&q);
-  elem = (int32_t *)queue_dequeue(&q);
+  result = queue_dequeue(&q, &elem);
+  result = queue_dequeue(&q, &elem);
+  result = queue_dequeue(&q, &elem);
+  result = queue_dequeue(&q, &elem);
+  result = queue_dequeue(&q, &elem);
+  result = queue_dequeue(&q, &elem);
 
   queue_destroy(&q);
 
@@ -31,7 +32,7 @@ int common_test()
 
 int main(int argc, char **argv)
 {
-  EXEC_TEST("Common test", common_test, 10000000);
+  EXEC_TEST("Common test", common_test, 1000000);
 
   return 0;
 }

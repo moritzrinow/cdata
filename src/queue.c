@@ -46,13 +46,15 @@ bool queue_enqueue(queue_t *queue,
   return true;
 }
 
-void *queue_dequeue(queue_t *queue)
+bool queue_dequeue(queue_t *queue,
+                   void **out)
 {
   if(QUEUE_IS_EMPTY(queue)){
-    return NULL;
+    return false;
   }
   void *elem = array_get(&queue->array, queue->front);
+  *out = elem;
   queue->front = (queue->front + 1) % queue->array.num_elem;
   queue->num_elem--;
-  return elem;
+  return true;
 }
