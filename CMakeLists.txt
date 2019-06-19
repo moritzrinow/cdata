@@ -21,6 +21,8 @@ set(cdata_SOURCES
     src/sort.c
     src/set.h
     src/set.c
+    src/queue.h
+    src/queue.c
 )
 
 # add cdata library
@@ -38,9 +40,11 @@ add_executable(arraytest src/test/array_test.c)
 add_executable(listtest src/test/list_test.c)
 add_executable(maptest src/test/map_test.c)
 add_executable(settest src/test/set_test.c)
+add_executable(queuetest src/test/queue_test.c)
 
 # link tests with the cdata library
 target_link_libraries(arraytest cdata)
 target_link_libraries(listtest cdata)
 target_link_libraries(maptest cdata)
 target_link_libraries(settest cdata)
+target_link_libraries(queuetest cdata)

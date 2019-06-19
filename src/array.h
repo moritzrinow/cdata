@@ -36,6 +36,8 @@ bool array_push_value(array_t *array,
 bool array_push_many(array_t *array,
                      uint32_t num,
                      void *elem);
+bool array_push_zero(array_t *array,
+                     uint32_t num);
 void *array_insert(array_t *array,
                    uint32_t index);
 bool array_insert_value(array_t *array,

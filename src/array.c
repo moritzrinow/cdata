@@ -110,11 +110,32 @@ bool array_push_many(array_t *array,
     }
   }
   uint8_t *data = (uint8_t *)array->data;
+  data = &data[array->num_elem * array->elem_size];
   for(uint32_t i = 0; i < num; i++){
+
     uint8_t *current = &data[i * array->elem_size];
     memcpy(current, elem, array->elem_size);
   }
 	array->num_elem += num;
+  return true;
+}
+
+bool array_push_zero(array_t *array,
+                     uint32_t num)
+{
+  if(num < 1){
+    return false;
+  }
+  uint32_t space_left = array_space_left(array);
+  if(space_left < num){
+    if(!array_resize_internal(array, array->num_alloc + num, true)){
+      return false;
+    }
+  }
+  uint8_t *data = (uint8_t *)array->data;
+  data = &data[array->num_elem * array->elem_size];
+  memset(data, 0, array->elem_size * num);
+  array->num_elem += num;
   return true;
 }
 

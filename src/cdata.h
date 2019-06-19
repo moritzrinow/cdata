@@ -8,5 +8,6 @@
 #include "hash.h"
 #include "sort.h"
 #include "set.h"
+#include "queue.h"
 
 #endif // _CDATA_H
