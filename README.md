@@ -9,6 +9,7 @@ Content:
 - Hashset
 - Hashmap
 - Queue (Circular)
+- Min-Heap
 - Linked list (Singly-Linked, Doubly-Linked unfinished)
 - Sorting
 
