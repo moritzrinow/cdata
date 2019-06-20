@@ -123,9 +123,6 @@ bool array_push_many(array_t *array,
 bool array_push_zero(array_t *array,
                      uint32_t num)
 {
-  if(num < 1){
-    return false;
-  }
   uint32_t space_left = array_space_left(array);
   if(space_left < num){
     if(!array_resize_internal(array, array->num_alloc + num, true)){
@@ -255,6 +252,15 @@ void *array_get_safe(array_t *array,
   }
   uint8_t *data = (uint8_t *)array->data;
   return &data[array->elem_size * index];
+}
+
+void array_set(array_t *array,
+               uint32_t index,
+               void *elem)
+{
+  uint8_t *data = (uint8_t *)array->data;
+  data = &data[array->elem_size * index];
+  memcpy(data, elem, array->elem_size);
 }
 
 bool array_contains(array_t *array,
@@ -413,6 +419,9 @@ void array_swap(array_t *array,
                 uint32_t index1,
                 uint32_t index2)
 {
+  if(index1 == index2){
+    return;
+  }
   void *elem1 = array_get(array, index1);
   void *elem2 = array_get(array, index2);
   void *buffer = array->alloc.malloc(array->elem_size);

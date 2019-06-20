@@ -61,6 +61,9 @@ void *array_get(array_t *array,
                 uint32_t index);
 void *array_get_safe(array_t *array,
                      uint32_t index);
+void array_set(array_t *array,
+               uint32_t index,
+               void *elem);
 
 typedef bool (*array_equal_func_t)(void *, void *);
 bool array_contains(array_t *array,

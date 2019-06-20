@@ -9,5 +9,7 @@
 #include "sort.h"
 #include "set.h"
 #include "queue.h"
+#include "minheap.h"
+#include "compare.h"
 
 #endif // _CDATA_H
