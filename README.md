@@ -10,6 +10,7 @@ Content:
 - Hashmap
 - Queue (Circular)
 - Min-Heap
+- Stack
 - Linked list (Singly-Linked, Doubly-Linked unfinished)
 - Sorting
 
