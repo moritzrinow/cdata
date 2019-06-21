@@ -3,7 +3,7 @@
 
 int common_test()
 {
-  int32_t *elem;
+  int32_t elem;
   bool result;
   queue_t q;
 

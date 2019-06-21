@@ -1,4 +1,5 @@
 #include "minheap.h"
+#include <string.h>
 
 #define LEFT_CHILD_INDEX(parent_index) (2 * parent_index + 1)
 #define RIGHT_CHILD_INDEX(parent_index) (2 * parent_index + 2)
@@ -76,22 +77,33 @@ void minheap_destroy(minheap_t *heap)
   heap->num_elem = 0;
 }
 
-void *minheap_peek(minheap_t *heap)
+bool minheap_peek(minheap_t *heap,
+                  void *out)
 {
-  return array_get_safe(&heap->array, 0);
+  void *elem = array_get_safe(&heap->array, 0);
+  if(!elem){
+    return false;
+  }
+  memcpy(out, elem, heap->array.elem_size);
+  return true;
 }
 
-void *minheap_poll(minheap_t *heap)
+bool minheap_poll(minheap_t *heap,
+                  void *out)
 {
   if(heap->num_elem < 1){
-    return NULL;
+    return false;
   }
-  void *elem = array_get(&heap->array, 0);
+  void *elem = array_get_safe(&heap->array, 0);
+  if(!elem){
+    return false;
+  }
+  memcpy(out, elem, heap->array.elem_size);
   array_set(&heap->array, 0, array_get(&heap->array, heap->num_elem - 1));
   array_remove(&heap->array, heap->num_elem - 1);
   heap->num_elem--;
   heapify_down(heap);
-  return elem;
+  return true;
 }
 
 bool minheap_push(minheap_t *heap,

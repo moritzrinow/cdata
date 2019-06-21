@@ -27,6 +27,8 @@ set(cdata_SOURCES
     src/minheap.c
     src/compare.h
     src/compare.c
+    src/stack.h
+    src/stack.c
 )
 
 # add cdata library
@@ -46,6 +48,7 @@ add_executable(maptest src/test/map_test.c)
 add_executable(settest src/test/set_test.c)
 add_executable(queuetest src/test/queue_test.c)
 add_executable(minheaptest src/test/minheap_test.c)
+add_executable(stacktest src/test/stack_test.c)
 
 # link tests with the cdata library
 target_link_libraries(arraytest cdata)
@@ -54,3 +57,4 @@ target_link_libraries(maptest cdata)
 target_link_libraries(settest cdata)
 target_link_libraries(queuetest cdata)
 target_link_libraries(minheaptest cdata)
+target_link_libraries(stacktest cdata)

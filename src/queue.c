@@ -47,13 +47,13 @@ bool queue_enqueue(queue_t *queue,
 }
 
 bool queue_dequeue(queue_t *queue,
-                   void **out)
+                   void *out)
 {
   if(QUEUE_IS_EMPTY(queue)){
     return false;
   }
   void *elem = array_get(&queue->array, queue->front);
-  *out = elem;
+  memcpy(out, elem, queue->array.elem_size);
   queue->front = (queue->front + 1) % queue->array.num_elem;
   queue->num_elem--;
   return true;

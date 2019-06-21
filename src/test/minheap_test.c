@@ -15,7 +15,7 @@ void print_minheap_int32(minheap_t *heap)
 
 int common_test()
 {
-  int32_t *elem_ptr;
+  int32_t number;
   bool result;
   minheap_t heap;
   minheap_func_t func;
@@ -32,9 +32,9 @@ int common_test()
     result = minheap_push(&heap, &r);
   }
   for(int32_t i = 0; i < 1000; i++){
-    elem_ptr = minheap_peek(&heap);
-    printf("%d\n", *elem_ptr);
-    minheap_poll(&heap);
+    result = minheap_peek(&heap, &number);
+    printf("%d\n", number);
+    result = minheap_poll(&heap, &number);
   }
   
   minheap_destroy(&heap);

@@ -23,7 +23,7 @@ void queue_destroy(queue_t *queue);
 bool queue_enqueue(queue_t *queue,
                    void *elem);
 bool queue_dequeue(queue_t *queue,
-                   void **out);
+                   void *out);
 
 #define QUEUE_ENQUEUE(queue, type, elem) \
   { \

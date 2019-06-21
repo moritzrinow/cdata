@@ -11,5 +11,6 @@
 #include "queue.h"
 #include "minheap.h"
 #include "compare.h"
+#include "stack.h"
 
 #endif // _CDATA_H

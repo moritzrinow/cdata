@@ -24,8 +24,10 @@ bool minheap_init(minheap_t *heap,
                   size_t size,
                   bool std_alloc);
 void minheap_destroy(minheap_t *heap);
-void *minheap_peek(minheap_t *heap);
-void *minheap_poll(minheap_t *heap);
+bool minheap_peek(minheap_t *heap,
+                  void *out);
+bool minheap_poll(minheap_t *heap,
+                  void *out);
 bool minheap_push(minheap_t *heap,
                   void *elem);
 bool minheap_shrink(minheap_t *heap);
