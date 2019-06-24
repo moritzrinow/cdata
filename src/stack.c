@@ -40,6 +40,6 @@ bool stack_pop(stack_t *stack,
     return false;
   }
   memcpy(out, elem, stack->elem_size);
-  array_remove(stack, stack->num_elem - 1);
+  stack->num_elem--;
   return true;
 }
