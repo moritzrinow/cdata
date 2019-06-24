@@ -12,6 +12,10 @@ typedef struct minheap_func_s {
   int32_t                   (*elem_compare)(void *, void *);
 } minheap_func_t;
 
+/*
+  All values pushed into this data structure
+  get fully copied.
+*/
 typedef struct minheap_s {
   minheap_func_t         func;
   array_t                array;

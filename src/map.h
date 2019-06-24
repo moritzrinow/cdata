@@ -26,6 +26,16 @@ typedef struct map_entry_s {
   void                    *value;
 } map_entry_t;
 
+/*
+  All keys and values pushed into this
+  data structure are not copied. The map
+  only keeps the pointers. Therefore
+  allocating memory is on you. You can
+  decide what will happend to the keys and values
+  memory at map cleanup with setting the key_destroy
+  and val_destroy function pointers in the map_func_t
+  data structure.
+*/
 typedef struct map_s {
   alloc_t            alloc;
   array_t            entries;

@@ -11,6 +11,10 @@ extern "C" {
 
 #include "types.h"
 
+/*
+  All values pushed into this data structure
+  get fully copied.
+*/
 typedef struct array_s {
   alloc_t              alloc;
   void                *data;
@@ -127,7 +131,10 @@ bool array_iterator_last(array_iterator_t *iterator);
     bool pushed = array_push_many(array, num, &val); \
   }
 
+// Retrieves a reference
 #define ARRAY_GET(array, type, index) ((type*)array_get(array, index))
+
+// Retrieves a reference and derefences it to get the value
 #define ARRAY_GET_VAL(array, type, index) (*(type*)array_get(array, index))
 
 #ifdef __cplusplus

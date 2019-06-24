@@ -20,6 +20,16 @@ typedef struct set_entry_s {
   void                    *elem;
 } set_entry_t;
 
+/*
+  All values pushed into this
+  data structure are not copied. The set
+  only keeps the pointers. Therefore
+  allocating memory is on you. You can
+  decide what will happend to the values
+  memory at set cleanup with setting the
+  elem_destroy function pointers in the set_func_t
+  data structure.
+*/
 typedef struct set_s {
   alloc_t            alloc;
   array_t            entries;

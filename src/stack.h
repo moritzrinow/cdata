@@ -8,6 +8,10 @@ extern "C" {
 #include "types.h"
 #include "array.h"
 
+/*
+  All values pushed into this data structure
+  get fully copied.
+*/
 typedef array_t stack_t;
 
 bool stack_init(stack_t *stack,

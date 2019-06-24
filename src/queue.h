@@ -8,6 +8,10 @@ extern "C" {
 #include "types.h"
 #include "array.h"
 
+/*
+  All values pushed into this data structure
+  get fully copied.
+*/
 typedef struct queue_s {
   array_t              array;
   uint32_t             front;
