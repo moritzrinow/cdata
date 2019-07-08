@@ -1,5 +1,5 @@
-#ifndef _SET_H
-#define _SET_H
+#ifndef _CDATA_SET_H
+#define _CDATA_SET_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -71,4 +71,4 @@ bool set_iterator_first(set_iterator_t *iterator);
 }
 #endif // __cplusplus
 
-#endif // _SET_H
+#endif // _CDATA_SET_H

@@ -1,5 +1,5 @@
-#ifndef _COMPARE_H
-#define _COMPARE_H
+#ifndef _CDATA_COMPARE_H
+#define _CDATA_COMPARE_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -26,4 +26,4 @@ int32_t compare_str(void *str1, void *str2);
 }
 #endif // __cplusplus
 
-#endif // _COMPARE_H
+#endif // _CDATA_COMPARE_H

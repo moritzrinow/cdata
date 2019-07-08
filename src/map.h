@@ -1,5 +1,5 @@
-#ifndef _MAP_H
-#define _MAP_H
+#ifndef _CDATA_MAP_H
+#define _CDATA_MAP_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -85,4 +85,4 @@ bool map_iterator_first(map_iterator_t *iterator);
 }
 #endif // __cplusplus
 
-#endif // _MAP_H
+#endif // _CDATA_MAP_H

@@ -1,5 +1,5 @@
-#ifndef _SORT_H
-#define _SORT_H
+#ifndef _CDATA_SORT_H
+#define _CDATA_SORT_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -15,4 +15,4 @@ void array_sort_bubblesort_std(array_t *array);
 }
 #endif // __cplusplus
 
-#endif // _SORT_H
+#endif // _CDATA_SORT_H

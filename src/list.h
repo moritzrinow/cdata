@@ -1,5 +1,5 @@
-#ifndef _LIST_H
-#define _LIST_H
+#ifndef _CDATA_LIST_H
+#define _CDATA_LIST_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -23,7 +23,7 @@ typedef struct list_s {
   list_node_t        *head;
   list_node_t        *tail;
   uint32_t            num_elem;
-  list_func_t         func;  
+  list_func_t         func;
 } list_t;
 
 void list_init(list_t *list,
@@ -70,4 +70,4 @@ void list_double_destroy(list_double_t *list);
 }
 #endif // __cplusplus
 
-#endif // _LIST_H
+#endif // _CDATA_LIST_H

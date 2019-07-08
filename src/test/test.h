@@ -1,5 +1,5 @@
-#ifndef _TEST_H
-#define _TEST_H
+#ifndef _CDATA_TEST_H
+#define _CDATA_TEST_H
 
 #include <stdio.h>
 
@@ -11,4 +11,4 @@ for(int i = 0; i < n; i++){ \
 	} \
 }
 
-#endif // _TEST_H
+#endif // _CDATA_TEST_H

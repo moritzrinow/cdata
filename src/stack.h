@@ -1,5 +1,5 @@
-#ifndef _STACK_H
-#define _STACK_H
+#ifndef _CDATA_STACK_H
+#define _CDATA_STACK_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -44,4 +44,4 @@ bool stack_pop(stack_t *stack,
 }
 #endif // __cplusplus
 
-#endif // _STACK_H
+#endif // _CDATA_STACK_H

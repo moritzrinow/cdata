@@ -1,5 +1,5 @@
-#ifndef _QUEUE_H
-#define _QUEUE_H
+#ifndef _CDATA_QUEUE_H
+#define _CDATA_QUEUE_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -39,4 +39,4 @@ bool queue_dequeue(queue_t *queue,
 }
 #endif // __cplusplus
 
-#endif // _QUEUE_H
+#endif // _CDATA_QUEUE_H

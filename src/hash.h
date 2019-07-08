@@ -1,5 +1,5 @@
-#ifndef _HASH_H
-#define _HASH_H
+#ifndef _CDATA_HASH_H
+#define _CDATA_HASH_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -28,4 +28,4 @@ uint32_t hash_str(void *);
 }
 #endif // __cplusplus
 
-#endif // _HASH_H
+#endif // _CDATA_HASH_H

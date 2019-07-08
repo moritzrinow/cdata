@@ -1,5 +1,5 @@
-#ifndef _MINHEAP_H
-#define _MINHEAP_H
+#ifndef _CDATA_MINHEAP_H
+#define _CDATA_MINHEAP_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -40,4 +40,4 @@ bool minheap_shrink(minheap_t *heap);
 }
 #endif // __cplusplus
 
-#endif // _MINHEAP_H
+#endif // _CDATA_MINHEAP_H

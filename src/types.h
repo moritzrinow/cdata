@@ -1,5 +1,5 @@
-#ifndef _TYPES_H
-#define _TYPES_H
+#ifndef _CDATA_TYPES_H
+#define _CDATA_TYPES_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -21,4 +21,4 @@ extern alloc_t alloc_std;
 }
 #endif // __cplusplus
 
-#endif // _TYPES_H
+#endif // _CDATA_TYPES_H

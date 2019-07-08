@@ -1,5 +1,5 @@
-#ifndef _ARRAY_H
-#define _ARRAY_H
+#ifndef _CDATA_ARRAY_H
+#define _CDATA_ARRAY_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -141,4 +141,4 @@ bool array_iterator_last(array_iterator_t *iterator);
 }
 #endif // __cplusplus
 
-#endif // _ARRAY_H
+#endif // _CDATA_ARRAY_H
