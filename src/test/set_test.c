@@ -1,12 +1,61 @@
 #include "cdata.h"
 #include "test.h"
 
+int test_address()
+{
+  typedef struct person_s {
+    int32_t               age;
+    float                 weight;
+    float                 height;
+  }person_t;
+
+  bool result;
+  set_t set;
+  set_func_t func;
+  func.elem_compare = equal_ptr;
+  func.elem_destroy = NULL;
+  func.elem_hash = hash_uint64;
+
+  result = set_init(&set, 1024, func, true);
+  if(!result){
+    return 1;
+  }
+
+  person_t *people = (person_t *)malloc(sizeof(person_t) * 5);
+  for(int i = 0; i < 5; i++){
+    people[i].age = i;
+    people[i].height = (float)i;
+    people[i].weight = (float)i;
+  }
+
+  person_t *p1 = &people[0];
+  person_t *p2 = &people[1];
+  person_t *p3 = &people[2];
+  person_t *p4 = &people[3];
+  person_t *p5 = &people[4];
+
+  result = set_add_elem(&set, &p1);
+  result = set_add_elem(&set, &p2);
+  result = set_add_elem(&set, &p3);
+  result = set_add_elem(&set, &p4);
+  result = set_add_elem(&set, &p5);
+
+  result = set_lookup(&set, &p1);
+  result = set_lookup(&set, &p2);
+  result = set_lookup(&set, &p3);
+  result = set_lookup(&set, &p4);
+  result = set_lookup(&set, &p5);
+
+  set_destroy(&set);
+  free(people);
+}
+
 int test_common()
 {
   bool result;
   set_t set;
   set_func_t func;
-  func.elem_compare = compare_int32;
+  func.elem_compare = equal_int32;
   func.elem_destroy = NULL;
   func.elem_hash = hash_int32;
 
@@ -54,7 +103,8 @@ int test_common()
 
 int main(int argc, char **argv)
 {
-  EXEC_TEST("Common Hashset Test", test_common, 1000000);
+  EXEC_TEST("Common Hashset Test", test_common, 0);
+  EXEC_TEST("Address Test", test_address, 1000000);
 
   return 0;
 }
