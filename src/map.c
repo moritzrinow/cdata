@@ -134,7 +134,7 @@ void *map_add_key_value(map_t *map,
 }
 
 void *map_lookup(map_t *map,
-                       void *key)
+                 void *key)
 {
   map_entry_t *entry = map_lookup_entry(map, key);
   if(!entry){
