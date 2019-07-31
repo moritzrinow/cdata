@@ -156,6 +156,17 @@ int32_t compare_str(void *str1, void *str2)
   return strcmp((const char *)str1, (const char *)str2);
 }
 
+int32_t compare_str_ci(void *str1, void *str2)
+{
+  char *ptr1 = (char *)str1;
+  char *ptr2 = (char *)str2;
+  for (;; ptr1++, ptr2++) {
+        int d = tolower((unsigned char)*ptr1) - tolower((unsigned char)*ptr2);
+        if (d != 0 || !*ptr1)
+            return d;
+    }
+}
+
 int32_t compare_ptr(void *ptr1, void *ptr2)
 {
   if(ptr1 < ptr2){
@@ -242,6 +253,11 @@ bool equal_float64(void *elem1, void *elem2)
 bool equal_str(void *str1, void *str2)
 {
   return strcmp((const char *)str1, (const char *)str2) == 0;
+}
+
+bool equal_str_ci(void *str1, void *str2)
+{
+  return compare_str_ci(str1, str2) == 0;
 }
 
 bool equal_ptr(void *ptr1, void *ptr2)
