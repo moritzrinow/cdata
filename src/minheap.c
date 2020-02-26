@@ -7,7 +7,7 @@
 
 #define HAS_LEFT_CHILD(heap, index) (LEFT_CHILD_INDEX(index) < heap->num_elem)
 #define HAS_RIGHT_CHILD(heap, index) (RIGHT_CHILD_INDEX(index) < heap->num_elem)
-#define HAS_PARENT(heap, index) (PARENT_INDEX(index) >= 0)
+#define HAS_PARENT(index) (PARENT_INDEX(index) >= 0)
 
 static inline void *left_child(minheap_t *heap,
                                uint32_t index)
